@@ -33,7 +33,7 @@ class TestAddGroup(unittest.TestCase):
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
 
-    def create_group(self, wd, group):
+    def create_group(self, wd, group: Group) -> None:
         wd.find_element_by_name("new").click()
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
