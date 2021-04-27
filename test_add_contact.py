@@ -2,7 +2,10 @@
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
+
+from helpers.base_methods_ui import BaseMethodsUI
 from helpers.dto_contact import Contact
+from helpers.data_preparation import PreparationGroup
 import unittest
 
 
@@ -11,29 +14,29 @@ class TestAddContact(unittest.TestCase):
         self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(30)
         self.home_page_url = "http://localhost/addressbook/"
-    
+
     def test_add_user(self):
         wd = self.wd
         self.open_home_page(wd, page=self.home_page_url)
-        self.login(wd, username="admin", password="secret")
+        BaseMethodsUI.login(wd, username="admin", password="secret")
+        self.group_name = PreparationGroup.preparation_group_ui(wd)
         self.open_add_contact_page(wd)
-        self.add_contact(wd, Contact())
+        self.add_contact(wd, Contact(group=self.group_name))
         self.return_home_page(wd)
-        self.logout(wd)
+        BaseMethodsUI.logout(wd)
 
     def test_add_user_space_name(self):
         wd = self.wd
         self.open_home_page(wd, page=self.home_page_url)
-        self.login(wd, username="admin", password="secret")
+        BaseMethodsUI.login(wd, username="admin", password="secret")
+        self.group_name = PreparationGroup.preparation_group_ui(wd)
         self.open_add_contact_page(wd)
-        self.add_contact(wd, Contact(first_name=" ", last_name=" "))
+        self.add_contact(wd, Contact(group=self.group_name))
         self.return_home_page(wd)
-        self.logout(wd)
+        BaseMethodsUI.logout(wd)
 
-    def logout(self, wd):
-        wd.find_element_by_link_text("Logout").click()
-
-    def return_home_page(self, wd):
+    @staticmethod
+    def return_home_page(wd):
         wd.find_element_by_link_text("home page").click()
 
     def add_contact(self, wd, contact: Contact) -> None:
@@ -106,9 +109,8 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(contact.a_year)
         wd.find_element_by_name("new_group").click()
-        Select(wd.find_element_by_name("new_group")).select_by_visible_text(
-            contact.group.get(list(contact.group.keys())[0]))
-        wd.find_element_by_xpath(f"(//option[@value='{list(contact.group.keys())[0]}'])[3]").click()
+        Select(wd.find_element_by_name("new_group")).select_by_visible_text(contact.group)
+        wd.find_element_by_xpath(f"(//option[text() = '{contact.group}'])").click()
         wd.find_element_by_name("address2").click()
         wd.find_element_by_name("address2").clear()
         wd.find_element_by_name("address2").send_keys(contact.address_two)
@@ -120,21 +122,16 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("notes").send_keys(contact.notes)
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
-    def open_add_contact_page(self, wd):
+    @staticmethod
+    def open_add_contact_page(wd):
         wd.find_element_by_link_text("add new").click()
 
-    def open_group_page(self, wd):
+    @staticmethod
+    def open_group_page(wd):
         wd.find_element_by_link_text("groups").click()
 
-    def login(self, wd, username: str, password: str) -> None:
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(username)
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
-        wd.find_element_by_xpath("//input[@value='Login']").click()
-
-    def open_home_page(self, wd, page: str) -> None:
+    @staticmethod
+    def open_home_page(wd, page: str) -> None:
         wd.get(page)
     
     def tearDown(self):

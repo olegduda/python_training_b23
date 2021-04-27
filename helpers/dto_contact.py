@@ -6,7 +6,7 @@ fake_ru = Faker('ru_RU')
 
 class Contact:
 
-    def __init__(self, first_name="", last_name=""):
+    def __init__(self, first_name="", last_name="", group=None):
         if first_name != "":
             self.first_name = first_name
         else:
@@ -35,7 +35,7 @@ class Contact:
         self.a_day = str(fake.date_time().day)
         self.a_month = fake.month_name()
         self.a_year = fake.year()
-        self.group = {"13": "Группа 2021-04-25 13:15:07.558757"}
+        self.group = group
         self.address_two = fake.address()
         self.phone_address_two = fake.phone_number()
         self.notes = fake.paragraph(nb_sentences=5)
