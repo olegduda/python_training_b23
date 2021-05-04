@@ -3,7 +3,6 @@ from helpers.api.auth import AuthApi
 from faker import Faker
 
 from helpers.dto_group import Group
-from test_add_group import TestAddGroup as AddGroup
 
 fake = Faker()
 
