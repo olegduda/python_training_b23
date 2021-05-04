@@ -19,8 +19,8 @@ class PreparationGroup:
         return group_name
 
     @staticmethod
-    def preparation_group_ui(wd) -> str:
+    def preparation_group_ui(app) -> str:
         group_name = f"New_{fake.isbn13(separator='-')}"
-        AddGroup.open_group_page(wd)
-        AddGroup.create_group(wd=wd, group=Group(name=f"{group_name}", header="1", footer="2"))
+        app.open_group_page()
+        app.create_group(group=Group(name=f"{group_name}", header="1", footer="2"))
         return group_name
