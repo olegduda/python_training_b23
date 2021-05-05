@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -
 
 from model.dto_contact import Contact
-from helpers.data_preparation import PreparationGroup
 
 
 def test_add_user(app):
-    app.login(username="admin", password="secret")
-    group_name = PreparationGroup.preparation_group_ui(app)
-    app.add_contact(Contact(group=group_name))
-    app.logout()
+    app.session.login(username="admin", password="secret")
+    group_name = app.group.preparation_group()
+    app.contact.add_contact(Contact(group=group_name))
+    app.session.logout()
 
 
 def test_add_user_space_name(app):
-    app.login(username="admin", password="secret")
-    group_name = PreparationGroup.preparation_group_ui(app)
-    app.add_contact(Contact(group=group_name))
-    app.logout()
+    app.session.login(username="admin", password="secret")
+    group_name = app.group.preparation_group()
+    app.contact.add_contact(Contact(group=group_name))
+    app.session.logout()
 

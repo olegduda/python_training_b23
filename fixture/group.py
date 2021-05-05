@@ -1,4 +1,7 @@
 from model.dto_group import Group
+from faker import Faker
+
+fake = Faker()
 
 
 class GroupHelper:
@@ -29,3 +32,9 @@ class GroupHelper:
     def return_group_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("group page").click()
+
+    def preparation_group(self) -> str:
+        group_name = f"New_{fake.isbn13(separator='-')}"
+        self.open_group_page()
+        self.create(group=Group(name=f"{group_name}", header="1", footer="2"))
+        return group_name
