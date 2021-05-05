@@ -1,5 +1,7 @@
 
 from selenium import webdriver
+
+from fixture.session import SessionHelper
 from model.dto_group import Group
 from model.dto_contact import Contact
 from selenium.webdriver.support.ui import Select
@@ -7,28 +9,15 @@ from selenium.webdriver.support.ui import Select
 
 class Application:
 
-    def __init__(self):
-        self.home_page_url = "http://localhost/addressbook/"
+    def __init__(self, base_url="http://localhost/addressbook/"):
+        self.home_page_url = base_url
         self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(30)
-
-    def login(self, username: str, password: str) -> None:
-        self.open_home_page(page=self.home_page_url)
-        self.wd.find_element_by_name("user").click()
-        self.wd.find_element_by_name("user").clear()
-        self.wd.find_element_by_name("user").send_keys(username)
-        self.wd.find_element_by_name("pass").clear()
-        self.wd.find_element_by_name("pass").send_keys(password)
-        self.wd.find_element_by_xpath("//input[@value='Login']").click()
+        self.session = SessionHelper(self)
 
     def open_home_page(self, page: str) -> None:
         wd = self.wd
         wd.get(page)
-
-    def logout(self):
-        wd = self.wd
-        wd.find_element_by_link_text("Logout").click()
-        wd.find_element_by_name("user")
 
     def create_group(self, group: Group) -> None:
         wd = self.wd
