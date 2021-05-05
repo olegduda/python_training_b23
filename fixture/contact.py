@@ -1,5 +1,6 @@
 from model.dto_contact import Contact
 from selenium.webdriver.support.ui import Select
+from selenium.common.exceptions import NoAlertPresentException
 
 
 class ContactHelper:
@@ -10,6 +11,10 @@ class ContactHelper:
     def return_home_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home page").click()
+
+    def menu_home(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
         
     def open_add_contact_page(self):
         wd = self.app.wd
@@ -87,8 +92,9 @@ class ContactHelper:
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(contact.a_year)
         wd.find_element_by_name("new_group").click()
-        Select(wd.find_element_by_name("new_group")).select_by_visible_text(contact.group)
-        wd.find_element_by_xpath(f"(//option[text() = '{contact.group}'])").click()
+        if not(contact.group is None):
+            Select(wd.find_element_by_name("new_group")).select_by_visible_text(contact.group)
+            wd.find_element_by_xpath(f"(//option[text() = '{contact.group}'])").click()
         wd.find_element_by_name("address2").click()
         wd.find_element_by_name("address2").clear()
         wd.find_element_by_name("address2").send_keys(contact.address_two)
@@ -100,3 +106,17 @@ class ContactHelper:
         wd.find_element_by_name("notes").send_keys(contact.notes)
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.return_home_page()
+
+    def delete_first(self):
+        wd = self.app.wd
+        self.menu_home()
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_xpath(f"//input[@value='Delete']").click()
+        wd.switch_to_alert().accept()
+        self.menu_home()
+
+
+
+
+
+
