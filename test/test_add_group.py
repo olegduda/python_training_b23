@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from helpers.dto_group import Group
+from model.dto_group import Group
 from datetime import datetime
 
     

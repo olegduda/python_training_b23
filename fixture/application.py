@@ -1,7 +1,7 @@
 
 from selenium import webdriver
-from helpers.dto_group import Group
-from helpers.dto_contact import Contact
+from model.dto_group import Group
+from model.dto_contact import Contact
 from selenium.webdriver.support.ui import Select
 
 
@@ -22,10 +22,13 @@ class Application:
         self.wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def open_home_page(self, page: str) -> None:
-        self.wd.get(page)
+        wd = self.wd
+        wd.get(page)
 
     def logout(self):
-        self.wd.find_element_by_link_text("Logout").click()
+        wd = self.wd
+        wd.find_element_by_link_text("Logout").click()
+        wd.find_element_by_name("user")
 
     def create_group(self, group: Group) -> None:
         wd = self.wd

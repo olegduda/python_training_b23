@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -
 
-from helpers.dto_contact import Contact
+from model.dto_contact import Contact
 from helpers.data_preparation import PreparationGroup
 
 

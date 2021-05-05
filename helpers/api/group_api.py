@@ -1,5 +1,4 @@
 import requests
-import test_add_group
 from faker import Faker
 
 fake = Faker()

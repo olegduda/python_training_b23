@@ -2,7 +2,7 @@ from helpers.api.group_api import GroupApi
 from helpers.api.auth import AuthApi
 from faker import Faker
 
-from helpers.dto_group import Group
+from model.dto_group import Group
 
 fake = Faker()
 
