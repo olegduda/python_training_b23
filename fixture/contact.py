@@ -1,6 +1,6 @@
 from model.dto_contact import Contact
 from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoAlertPresentException
+from time import sleep
 
 
 class ContactHelper:
@@ -23,6 +23,50 @@ class ContactHelper:
     def add_contact(self, contact: Contact) -> None:
         wd = self.app.wd
         self.open_add_contact_page()
+        self._fill_fields(contact)
+        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        self.return_home_page()
+
+    def delete_first(self):
+        wd = self.app.wd
+        self.menu_home()
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_xpath(f"//input[@value='Delete']").click()
+        wd.switch_to_alert().accept()
+        self.menu_home()
+
+    def delete_all(self):
+        wd = self.app.wd
+        self.menu_home()
+        wd.find_element_by_id("MassCB").click()
+        wd.find_element_by_xpath(f"//input[@value='Delete']").click()
+        wd.switch_to_alert().accept()
+        self.menu_home()
+
+    def edit_first(self, contact: Contact):
+        wd = self.app.wd
+        self.menu_home()
+        wd.find_element_by_xpath(f"//img[@title='Edit']").click()
+        self._fill_fields(contact)
+        wd.find_element_by_name("update").click()
+        self.return_home_page()
+
+    def search(self, to_find: str):
+        wd = self.app.wd
+        wd.find_element_by_name("searchstring").click()
+        wd.find_element_by_name("searchstring").click()
+        wd.find_element_by_name("searchstring").send_keys(to_find)
+        sleep(2)
+
+    def preparation_several_contacts(self, quantity: int) -> []:
+        contacts = []
+        for number in range(quantity):
+            contact = Contact()
+            contacts.append(contact)
+        return contacts
+
+    def _fill_fields(self, contact: Contact):
+        wd = self.app.wd
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.first_name)
@@ -84,15 +128,15 @@ class ContactHelper:
         wd.find_element_by_name("byear").send_keys(contact.b_year)
         wd.find_element_by_name("aday").click()
         Select(wd.find_element_by_name("aday")).select_by_visible_text(contact.a_day)
-        wd.find_element_by_xpath(f"(//option[@value='{contact.a_day}'])[2]").click()
+        wd.find_element_by_xpath(f"(//option[@value='{contact.a_day}' and not(@selected)])").click()
         wd.find_element_by_name("amonth").click()
         Select(wd.find_element_by_name("amonth")).select_by_visible_text(contact.a_month)
-        wd.find_element_by_xpath(f"(//option[@value='{contact.a_month}'])[2]").click()
+        wd.find_element_by_xpath(f"(//option[@value='{contact.a_month}' and not(@selected)])").click()
         wd.find_element_by_name("ayear").click()
         wd.find_element_by_name("ayear").clear()
         wd.find_element_by_name("ayear").send_keys(contact.a_year)
-        wd.find_element_by_name("new_group").click()
-        if not(contact.group is None):
+        if not (contact.group is None):
+            wd.find_element_by_name("new_group").click()
             Select(wd.find_element_by_name("new_group")).select_by_visible_text(contact.group)
             wd.find_element_by_xpath(f"(//option[text() = '{contact.group}'])").click()
         wd.find_element_by_name("address2").click()
@@ -104,16 +148,6 @@ class ContactHelper:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
-        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
-        self.return_home_page()
-
-    def delete_first(self):
-        wd = self.app.wd
-        self.menu_home()
-        wd.find_element_by_name("selected[]").click()
-        wd.find_element_by_xpath(f"//input[@value='Delete']").click()
-        wd.switch_to_alert().accept()
-        self.menu_home()
 
 
 
