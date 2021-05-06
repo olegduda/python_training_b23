@@ -63,6 +63,7 @@ class ContactHelper:
         for number in range(quantity):
             contact = Contact()
             contacts.append(contact)
+            self.add_contact(contact)
         return contacts
 
     def _fill_fields(self, contact: Contact):
