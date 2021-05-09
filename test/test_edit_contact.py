@@ -4,7 +4,8 @@ from model.dto_contact import Contact
 
 
 def test_edit_first_contact(app):
-    app.contact.add_contact(Contact())
+    if app.contact.count() < 1:
+        app.contact.add_contact(Contact())
     new_contact = Contact(first_name="New F_Name Edit", last_name="New L_Name Edit")
     app.contact.edit_first(new_contact)
 

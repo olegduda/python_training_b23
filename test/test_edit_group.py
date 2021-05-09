@@ -4,7 +4,8 @@ from datetime import datetime
 
 
 def test_edit_first_group(app):
-    app.group.preparation_several_group(5)
+    if app.group.count() < 1:
+        app.group.preparation_several_group(2)
     new_group = Group(name=f"Первая Группа изменена {datetime.now()}", header="New Edit h123", footer="Edit F5778")
     app.group.edit_first(new_group)
 

@@ -4,7 +4,8 @@ from model.dto_contact import Contact
 
 
 def test_delete_first_contact(app):
-    app.contact.add_contact(Contact())
+    if app.contact.count() < 1:
+        app.contact.add_contact(Contact())
     app.contact.delete_first()
 
 

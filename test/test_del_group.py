@@ -2,7 +2,8 @@
 
 
 def test_delete_first_group(app):
-    app.group.preparation_several_group(5)
+    if app.group.count() < 1:
+        app.group.preparation_several_group(2)
     app.group.delete_first()
 
 

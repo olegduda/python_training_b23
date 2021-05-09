@@ -113,3 +113,8 @@ class ContactHelper:
             Select(wd.find_element_by_name(field_name)).select_by_visible_text(value)
             wd.find_element_by_xpath(xpath).click()
 
+    def count(self):
+        wd = self.app.wd
+        self.menu_home()
+        return len(wd.find_elements_by_name("selected[]"))
+
