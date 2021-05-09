@@ -10,15 +10,26 @@ class ContactHelper:
     
     def return_home_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home page").click()
+        if not self.is_home_page():
+            wd.find_element_by_link_text("home page").click()
 
     def menu_home(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
+        if not self.is_home_page():
+            wd.find_element_by_link_text("home").click()
         
     def open_add_contact_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("add new").click()
+        if not self.is_contact_page():
+            wd.find_element_by_link_text("add new").click()
+
+    def is_home_page(self):
+        wd = self.app.wd
+        return wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("searchstring")) > 0
+
+    def is_contact_page(self):
+        wd = self.app.wd
+        return wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_name("firstname")) > 0
 
     def add_contact(self, contact: Contact) -> None:
         wd = self.app.wd

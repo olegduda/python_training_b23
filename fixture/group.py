@@ -19,11 +19,17 @@ class GroupHelper:
 
     def open_group_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+        if not self.is_group_page():
+            wd.find_element_by_link_text("groups").click()
 
     def return_group_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("group page").click()
+        if not self.is_group_page():
+            wd.find_element_by_link_text("group page").click()
+
+    def is_group_page(self):
+        wd = self.app.wd
+        return wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0
 
     def preparation_group(self) -> str:
         group_name = f"New_{fake.isbn13(separator='-')}"
