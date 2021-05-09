@@ -106,13 +106,9 @@ class ContactHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(value)
 
-    def _change_field_select_value(self, field_name, value, xpath=None):
+    def _change_field_select_value(self, field_name, value, xpath):
         wd = self.app.wd
-        if value is not None and xpath is None:
-            wd.find_element_by_name(field_name).click()
-            Select(wd.find_element_by_name(field_name)).select_by_visible_text(value)
-            wd.find_element_by_xpath(f"//option[@value='{value}']").click()
-        elif value is not None and xpath is not None:
+        if value is not None:
             wd.find_element_by_name(field_name).click()
             Select(wd.find_element_by_name(field_name)).select_by_visible_text(value)
             wd.find_element_by_xpath(xpath).click()
