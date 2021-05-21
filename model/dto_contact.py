@@ -8,10 +8,11 @@ class Contact:
 
     all_none = False
 
-    def __init__(self, first_name=None, last_name=None, middle_name=None, group=None, all_none=False):
+    def __init__(self, first_name=None, last_name=None, middle_name=None, group=None, id_contact=None, all_none=False):
 
         self.all_none = all_none
 
+        self.id = id_contact
         self.first_name = self.field_fill_value(field_value=first_name, gen_value=fake_ru.first_name())
         self.last_name = self.field_fill_value(field_value=last_name, gen_value=fake_ru.last_name())
         self.middle_name = self.field_fill_value(field_value=middle_name, gen_value=fake_ru.middle_name())

@@ -57,7 +57,7 @@ class ContactHelper:
     def edit_first(self, contact: Contact):
         wd = self.app.wd
         self.menu_home()
-        wd.find_element_by_xpath(f"//img[@title='Edit']").click()
+        wd.find_element_by_xpath(f"//tr[not(@style)]//img[@title='Edit']").click()
         self._fill_fields(contact)
         wd.find_element_by_name("update").click()
         self.return_home_page()
@@ -128,4 +128,16 @@ class ContactHelper:
         wd = self.app.wd
         self.menu_home()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.menu_home()
+        contacts_list = []
+        for element in wd.find_elements_by_css_selector("tr[name='entry']"):
+            id_contact = element.find_element_by_xpath("td[1]/input").get_attribute("value")
+            last_name = element.find_element_by_xpath("td[2]")
+            first_name = element.find_element_by_xpath("td[3]")
+            contacts_list.append(Contact(last_name=last_name, first_name=first_name,
+                                         id_contact=id_contact, all_none=True))
+        return contacts_list
 

@@ -11,7 +11,7 @@ class Application:
     def __init__(self, base_url="http://localhost/addressbook/"):
         self.home_page_url = base_url
         self.wd = webdriver.Chrome()
-        # self.wd.implicitly_wait(2)
+        self.wd.implicitly_wait(5)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
