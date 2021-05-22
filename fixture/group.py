@@ -16,6 +16,7 @@ class GroupHelper:
         self._fill_in_fields(group)
         wd.find_element_by_name("submit").click()
         self.return_group_page()
+        self.group_cache = None
 
     def open_group_page(self):
         wd = self.app.wd
@@ -50,6 +51,7 @@ class GroupHelper:
         self.select_first_group()
         wd.find_element_by_name("delete").click()
         self.return_group_page()
+        self.group_cache = None
 
     def delete_name(self, name_group):
         wd = self.app.wd
@@ -57,6 +59,7 @@ class GroupHelper:
         wd.find_element_by_xpath(f"//input[@title='Select ({name_group})']").click()
         wd.find_element_by_name("delete").click()
         self.return_group_page()
+        self.group_cache = None
 
     def edit_first(self, new_group: Group):
         wd = self.app.wd
@@ -66,6 +69,7 @@ class GroupHelper:
         self._fill_in_fields(new_group)
         wd.find_element_by_name("update").click()
         self.return_group_page()
+        self.group_cache = None
 
     def select_first_group(self):
         wd = self.app.wd
@@ -79,6 +83,7 @@ class GroupHelper:
         self._fill_in_fields(new_group)
         wd.find_element_by_name("update").click()
         self.return_group_page()
+        self.group_cache = None
 
     def _fill_in_fields(self, group: Group):
         self._change_field_value("group_name", group.name)
@@ -97,14 +102,17 @@ class GroupHelper:
         self.open_group_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    group_cache = None
+
     def get_group_list(self):
-        wd = self.app.wd
-        self.open_group_page()
-        groups_list = []
-        for element in wd.find_elements_by_css_selector("span.group"):
-            name_group = element.text
-            id_group = element.find_element_by_name("selected[]").get_attribute("value")
-            groups_list.append(Group(name=name_group, id_group=id_group))
-        return groups_list
+        if self.group_cache is None:
+            wd = self.app.wd
+            self.open_group_page()
+            self.group_cache = []
+            for element in wd.find_elements_by_css_selector("span.group"):
+                name_group = element.text
+                id_group = element.find_element_by_name("selected[]").get_attribute("value")
+                self.group_cache.append(Group(name=name_group, id_group=id_group))
+        return list(self.group_cache)
 
 
