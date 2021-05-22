@@ -107,3 +107,4 @@ class GroupHelper:
             groups_list.append(Group(name=name_group, id_group=id_group))
         return groups_list
 
+
