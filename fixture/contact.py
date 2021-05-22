@@ -37,6 +37,7 @@ class ContactHelper:
         self._fill_fields(contact)
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.return_home_page()
+        self.contact_cache = None
 
     def delete_first(self):
         wd = self.app.wd
@@ -45,6 +46,7 @@ class ContactHelper:
         wd.find_element_by_xpath(f"//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
         self.menu_home()
+        self.contact_cache = None
 
     def delete_all(self):
         wd = self.app.wd
@@ -53,6 +55,7 @@ class ContactHelper:
         wd.find_element_by_xpath(f"//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
         self.menu_home()
+        self.contact_cache = None
 
     def edit_first(self, contact: Contact):
         wd = self.app.wd
@@ -61,6 +64,7 @@ class ContactHelper:
         self._fill_fields(contact)
         wd.find_element_by_name("update").click()
         self.return_home_page()
+        self.contact_cache = None
 
     def search(self, to_find: str):
         wd = self.app.wd
@@ -129,15 +133,18 @@ class ContactHelper:
         self.menu_home()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.menu_home()
-        contacts_list = []
-        for element in wd.find_elements_by_css_selector("tr[name='entry']"):
-            id_contact = element.find_element_by_xpath("td[1]/input").get_attribute("value")
-            last_name = element.find_element_by_xpath("td[2]").text
-            first_name = element.find_element_by_xpath("td[3]").text
-            contacts_list.append(Contact(last_name=last_name, first_name=first_name,
-                                         id_contact=id_contact, all_none=True))
-        return contacts_list
+        if self.contact_cache is None:
+            wd = self.app.wd
+            self.menu_home()
+            self.contact_cache = []
+            for element in wd.find_elements_by_css_selector("tr[name='entry']"):
+                id_contact = element.find_element_by_xpath("td[1]/input").get_attribute("value")
+                last_name = element.find_element_by_xpath("td[2]").text
+                first_name = element.find_element_by_xpath("td[3]").text
+                self.contact_cache.append(Contact(last_name=last_name, first_name=first_name,
+                                             id_contact=id_contact, all_none=True))
+        return list(self.contact_cache)
 
