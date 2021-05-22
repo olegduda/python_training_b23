@@ -1,4 +1,6 @@
 from faker import Faker
+from sys import maxsize
+
 
 fake = Faker()
 fake_ru = Faker('ru_RU')
@@ -40,6 +42,19 @@ class Contact:
         self.phone_address_two = self.field_fill_value(gen_value=fake.phone_number())
         self.notes = self.field_fill_value(gen_value=fake.paragraph(nb_sentences=5))
 
+    def __repr__(self):
+        return f"{self.id}:{self.first_name}:{self.last_name}"
+
+    def __eq__(self, other):
+        return (self.id is None or other.id is None or self.id == other.id) \
+               and self.first_name == other.first_name and self.last_name == other.last_name
+
+    def id_or_max(self):
+        if self.id:
+            return int(self.id)
+        else:
+            return maxsize
+
     def field_fill_value(self, field_value=None, gen_value=None):
         if field_value is not None:
             first_name = field_value
@@ -49,3 +64,18 @@ class Contact:
             first_name = gen_value
         return first_name
 
+    @staticmethod
+    def found_by_name_in_list(first_name, last_name, list_contacts):
+        for contact in list_contacts:
+            if contact.first_name == first_name and contact.last_name == last_name:
+                return contact
+        return None
+
+    @staticmethod
+    def update_list_by_id(contact, list_contacts):
+        new_list = []
+        for old_contact in list_contacts:
+            if old_contact.id == contact.id:
+                old_contact = contact
+            new_list.append(old_contact)
+        return new_list
