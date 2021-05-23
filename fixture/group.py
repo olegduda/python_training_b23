@@ -46,14 +46,17 @@ class GroupHelper:
         return groups_name
 
     def delete_first(self):
+        self.delete_by_index(0)
+
+    def delete_by_index(self, index):
         wd = self.app.wd
         self.open_group_page()
-        self.select_first_group()
+        self.select_by_index(index)
         wd.find_element_by_name("delete").click()
         self.return_group_page()
         self.group_cache = None
 
-    def delete_name(self, name_group):
+    def delete_by_name(self, name_group):
         wd = self.app.wd
         self.open_group_page()
         wd.find_element_by_xpath(f"//input[@title='Select ({name_group})']").click()
@@ -62,20 +65,27 @@ class GroupHelper:
         self.group_cache = None
 
     def edit_first(self, new_group: Group):
+        self.edit_by_index(index=0, new_group=new_group)
+
+    def edit_by_index(self, index: int, new_group: Group):
         wd = self.app.wd
         self.open_group_page()
-        self.select_first_group()
+        self.select_by_index(index)
         wd.find_element_by_name("edit").click()
         self._fill_in_fields(new_group)
         wd.find_element_by_name("update").click()
         self.return_group_page()
         self.group_cache = None
 
+    def select_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def select_first_group(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
 
-    def edit_name(self, name_group: str, new_group: Group):
+    def edit_by_name(self, name_group: str, new_group: Group):
         wd = self.app.wd
         self.open_group_page()
         wd.find_element_by_xpath(f"//input[@title='Select ({name_group})']").click()
