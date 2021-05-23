@@ -3,7 +3,7 @@ from model.dto_group import Group
 from random import randrange
 
 
-def test_delete_first_group(app):
+def test_delete_random_group(app):
     if app.group.count() < 1:
         app.group.preparation_several_group(2)
     old_groups = app.group.get_group_list()
