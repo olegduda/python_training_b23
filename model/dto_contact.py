@@ -10,7 +10,13 @@ class Contact:
 
     all_none = False
 
-    def __init__(self, first_name=None, last_name=None, middle_name=None, group=None, id_contact=None, all_none=False):
+    def __init__(self, first_name=None, last_name=None, middle_name=None, group=None, id_contact=None,
+                 address=None,
+                 all_phones_from_home_page=None,
+                 phone_home=None, phone_mobile=None, phone_work=None, phone_fax=None,
+                 email_one=None, email_two=None, email_three=None,
+                 phone_2=None,
+                 all_none=False):
 
         self.all_none = all_none
 
@@ -22,14 +28,16 @@ class Contact:
         self.nickname = self.field_fill_value(gen_value=fake.user_name())
         self.title = self.field_fill_value(gen_value=fake.job())
         self.company = self.field_fill_value(gen_value=fake.company())
-        self.address = self.field_fill_value(gen_value=fake.address())
-        self.phone_home = self.field_fill_value(gen_value=fake.phone_number())
-        self.phone_mobile = self.field_fill_value(gen_value=fake.phone_number())
-        self.phone_work = self.field_fill_value(gen_value=fake.phone_number())
-        self.phone_fax = self.field_fill_value(gen_value=fake.phone_number())
-        self.email_one = self.field_fill_value(gen_value=fake.email())
-        self.email_two = self.field_fill_value(gen_value=fake.company_email())
-        self.email_three = self.field_fill_value(gen_value=fake.company_email())
+        self.address = self.field_fill_value(field_value=address, gen_value=fake.address())
+
+        self.all_phones_from_home_page = all_phones_from_home_page
+        self.phone_home = self.field_fill_value(field_value=phone_home, gen_value=fake.phone_number())
+        self.phone_mobile = self.field_fill_value(field_value=phone_mobile, gen_value=fake.phone_number())
+        self.phone_work = self.field_fill_value(field_value=phone_work, gen_value=fake.phone_number())
+        self.phone_fax = self.field_fill_value(field_value=phone_fax, gen_value=fake.phone_number())
+        self.email_one = self.field_fill_value(field_value=email_one, gen_value=fake.email())
+        self.email_two = self.field_fill_value(field_value=email_two, gen_value=fake.company_email())
+        self.email_three = self.field_fill_value(field_value=email_three, gen_value=fake.company_email())
         self.home_page = self.field_fill_value(gen_value=fake.hostname(2))
         self.b_day = self.field_fill_value(gen_value=str(fake.date_time().day))
         self.b_month = self.field_fill_value(gen_value=fake.month_name())
@@ -39,7 +47,7 @@ class Contact:
         self.a_year = self.field_fill_value(gen_value=fake.year())
         self.group = self.field_fill_value(field_value=group)
         self.address_two = self.field_fill_value(gen_value=fake.address())
-        self.phone_address_two = self.field_fill_value(gen_value=fake.phone_number())
+        self.phone_2 = self.field_fill_value(field_value=phone_2, gen_value=fake.phone_number())
         self.notes = self.field_fill_value(gen_value=fake.paragraph(nb_sentences=5))
 
     def __repr__(self):
@@ -79,3 +87,4 @@ class Contact:
                 old_contact = contact
             new_list.append(old_contact)
         return new_list
+
