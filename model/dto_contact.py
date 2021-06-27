@@ -10,10 +10,11 @@ class Contact:
 
     all_none = False
 
-    def __init__(self, first_name=None, last_name=None, middle_name=None, group=None, id_contact=None,
-                 address=None,
+    def __init__(self, first_name=None, last_name=None, middle_name=None,
+                 group=None, id_contact=None, address=None,
                  all_phones_from_home_page=None,
                  phone_home=None, phone_mobile=None, phone_work=None, phone_fax=None,
+                 all_emails_from_home_page=None,
                  email_one=None, email_two=None, email_three=None,
                  phone_2=None,
                  all_none=False):
@@ -35,6 +36,8 @@ class Contact:
         self.phone_mobile = self.field_fill_value(field_value=phone_mobile, gen_value=fake.phone_number())
         self.phone_work = self.field_fill_value(field_value=phone_work, gen_value=fake.phone_number())
         self.phone_fax = self.field_fill_value(field_value=phone_fax, gen_value=fake.phone_number())
+
+        self.all_emails_from_home_page = all_emails_from_home_page
         self.email_one = self.field_fill_value(field_value=email_one, gen_value=fake.email())
         self.email_two = self.field_fill_value(field_value=email_two, gen_value=fake.company_email())
         self.email_three = self.field_fill_value(field_value=email_three, gen_value=fake.company_email())

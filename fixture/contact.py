@@ -161,11 +161,23 @@ class ContactHelper:
                 all_emails = cells[4].text
                 all_phones = cells[5].text
                 all_phones_list = all_phones.splitlines()
+                phone_home, phone_mobile, phone_work, phone_2 = None, None, None, None
+                for index in range(0, len(all_phones_list)):
+                    if index == 0:
+                        phone_home = all_phones_list[0]
+                    if index == 1:
+                        phone_mobile = all_phones_list[1]
+                    if index == 2:
+                        phone_work = all_phones_list[2]
+                    if index == 3:
+                        phone_2 = all_phones_list[3]
                 self.contact_cache.append(Contact(last_name=last_name, first_name=first_name,
                                                   id_contact=id_contact,
+                                                  address=address,
+                                                  all_emails_from_home_page=all_emails,
                                                   all_phones_from_home_page=all_phones,
-                                                  phone_home=all_phones_list[0], phone_work=all_phones_list[2],
-                                                  phone_mobile=all_phones_list[1], phone_2=all_phones_list[3],
+                                                  phone_home=phone_home, phone_work=phone_work,
+                                                  phone_mobile=phone_mobile, phone_2=phone_2,
                                                   all_none=True))
         return list(self.contact_cache)
 
@@ -213,3 +225,10 @@ class ContactHelper:
         phone_2 = re.search("P: (.*)", view_text).group(1)
         return Contact(phone_home=phone_home, phone_work=phone_work, phone_mobile=phone_mobile, phone_2=phone_2)
 
+    def get_count_contacts_from_counter(self) -> int:
+        wd = self.app.wd
+        try:
+            count = int(wd.find_element_by_id("search_count").text)
+        except ValueError as e:
+            print(f"Это не число: {e}")
+        return count
