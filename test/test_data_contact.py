@@ -29,7 +29,7 @@ def test_phone_from_home_page_revers(app):
 
 def test_all_data_from_home_page(app):
     count_contacts = app.contact.get_count_contacts_from_counter()
-    index = randrange(0, count_contacts-1)
+    index = randrange(count_contacts)
     list_cont = app.contact.get_contact_list()
     contact_from_home_page = app.contact.get_contact_list()[index]
     contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
