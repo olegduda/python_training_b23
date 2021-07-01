@@ -8,10 +8,21 @@ from fixture.session import SessionHelper
 
 class Application:
 
-    def __init__(self, base_url="http://localhost/addressbook/"):
+    def __init__(self, browser, base_url):
+        if browser == "chrome":
+            self.wd = webdriver.Chrome()
+        elif browser == "firefox":
+            self.wd = webdriver.Firefox()
+        elif browser == "ie":
+            self.wd = webdriver.Ie()
+        elif browser == "opera":
+            self.wd = webdriver.Opera
+        else:
+            raise ValueError(f"Unrecognized browser {browser}")
+
         self.home_page_url = base_url
-        self.wd = webdriver.Chrome()
         self.wd.implicitly_wait(5)
+
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
