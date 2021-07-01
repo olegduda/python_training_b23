@@ -54,7 +54,7 @@ class Contact:
         self.notes = self.field_fill_value(gen_value=fake.paragraph(nb_sentences=5))
 
     def __repr__(self):
-        return f"{self.id}:{self.first_name}:{self.last_name}"
+        return f"{self.id}:{self.first_name}:{self.last_name}:{self.middle_name}"
 
     def __eq__(self, other):
         return (self.id is None or other.id is None or self.id == other.id) \
@@ -68,12 +68,12 @@ class Contact:
 
     def field_fill_value(self, field_value=None, gen_value=None):
         if field_value is not None:
-            first_name = field_value
+            value = field_value
         elif self.all_none is True:
-            first_name = None
+            value = None
         else:
-            first_name = gen_value
-        return first_name
+            value = gen_value
+        return value
 
     @staticmethod
     def found_by_name_in_list(first_name, last_name, list_contacts):

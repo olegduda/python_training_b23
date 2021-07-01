@@ -123,7 +123,7 @@ class ContactHelper:
         self._change_field_select_value("new_group", contact.group, f"(//option[text() = '{contact.group}'])")
 
         self._change_field_text_value("address2", contact.address_two)
-        self._change_field_text_value("phone2", contact.phone_address_two)
+        self._change_field_text_value("phone2", contact.phone_2)
         self._change_field_text_value("notes", contact.notes)
 
     def _change_field_text_value(self, field_name, value):
