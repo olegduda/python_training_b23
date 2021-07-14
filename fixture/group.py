@@ -1,12 +1,13 @@
 from model.dto_group import Group
 from faker import Faker
+from fixture.application import Application
 
 fake = Faker()
 
 
 class GroupHelper:
 
-    def __init__(self, app):
+    def __init__(self, app: Application):
         self.app = app
 
     def create(self, group: Group) -> None:

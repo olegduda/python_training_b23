@@ -3,11 +3,12 @@ import re
 from model.dto_contact import Contact
 from selenium.webdriver.support.ui import Select
 from time import sleep
+from fixture.application import Application
 
 
 class ContactHelper:
     
-    def __init__(self, app):
+    def __init__(self, app: Application):
         self.app = app
     
     def return_home_page(self):

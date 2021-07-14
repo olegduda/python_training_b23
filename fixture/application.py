@@ -10,13 +10,13 @@ class Application:
 
     def __init__(self, browser, base_url):
         if browser == "chrome":
-            self.wd = webdriver.Chrome()
+            self.wd: webdriver = webdriver.Chrome()
         elif browser == "firefox":
-            self.wd = webdriver.Firefox()
+            self.wd: webdriver = webdriver.Firefox()
         elif browser == "ie":
-            self.wd = webdriver.Ie()
+            self.wd: webdriver = webdriver.Ie()
         elif browser == "opera":
-            self.wd = webdriver.Opera
+            self.wd: webdriver = webdriver.Opera
         else:
             raise ValueError(f"Unrecognized browser {browser}")
 

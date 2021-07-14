@@ -1,8 +1,9 @@
+from fixture.application import Application
 
 
 class SessionHelper:
 
-    def __init__(self, app):
+    def __init__(self, app: Application):
         self.app = app
     
     def login(self, username: str, password: str) -> None:
