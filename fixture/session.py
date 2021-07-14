@@ -1,4 +1,5 @@
-from fixture.application import Application
+from __future__ import annotations
+from fixture.application import *
 
 
 class SessionHelper:

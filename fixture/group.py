@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from model.dto_group import Group
 from faker import Faker
-from fixture.application import Application
+from fixture.application import *
 
 fake = Faker()
 

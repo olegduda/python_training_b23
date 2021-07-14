@@ -23,9 +23,9 @@ class Application:
         self.home_page_url = base_url
         self.wd.implicitly_wait(5)
 
-        self.session = SessionHelper(self)
-        self.group = GroupHelper(self)
-        self.contact = ContactHelper(self)
+        self.session: SessionHelper = SessionHelper(self)
+        self.group: GroupHelper = GroupHelper(self)
+        self.contact: ContactHelper = ContactHelper(self)
 
     def open_home_page(self, page: str) -> None:
         wd = self.wd

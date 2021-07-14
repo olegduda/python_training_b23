@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import re
 
 from model.dto_contact import Contact
 from selenium.webdriver.support.ui import Select
 from time import sleep
-from fixture.application import Application
+from fixture.application import *
 
 
 class ContactHelper:

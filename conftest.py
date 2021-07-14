@@ -1,23 +1,28 @@
 import pytest
+import json
+import os.path
 from fixture.application import Application
+from typing import Optional
 
-fixture = None
+fixture: Optional[Application] = None
+env = None
 
 
 @pytest.fixture()
 def app(request):
     global fixture
+    global env
 
     browser = request.config.getoption("--browser")
-    base_url = request.config.getoption("--baseUrl")
-    password = request.config.getoption("--password")
+    config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), request.config.getoption("env"))
+    if env is None:
+        with open(config_file) as f:
+            env = json.load(f)
 
-    if fixture is None:
-        fixture = Application(browser=browser, base_url=base_url)
-    else:
-        if not fixture.is_valid():
-            fixture = Application(browser=browser, base_url=base_url)
-    fixture.session.ensure_login(username="admin", password=password)
+    if fixture is None or not fixture.is_valid():
+        fixture = Application(browser=browser, base_url=env["base_url"])
+
+    fixture.session.ensure_login(username=env["username"], password=env["password"])
     return fixture
 
 
@@ -32,6 +37,5 @@ def stop_session(request):
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
-    parser.addoption("--baseUrl", action="store", default="http://localhost/addressbook/")
-    parser.addoption("--password", action="store", default="secret")
+    parser.addoption("--env", action="store", default="env.json")
 
