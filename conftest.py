@@ -1,3 +1,6 @@
+import importlib
+
+import jsonpickle
 import pytest
 import json
 import os.path
@@ -39,3 +42,21 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
     parser.addoption("--env", action="store", default="env.json")
 
+
+def pytest_generate_tests(metafunc):
+    for fixture in metafunc.fixturenames:
+        if fixture.startswith("data_"):
+            test_data = load_from_module(fixture[5:])
+            metafunc.parametrize(fixture, test_data, ids=[str(x) for x in test_data])
+        if fixture.startswith("json_"):
+            test_data = load_from_json(fixture[5:])
+            metafunc.parametrize(fixture, test_data, ids=[str(x) for x in test_data])
+
+
+def load_from_module(module):
+    return importlib.import_module(f'data.{module}').test_data
+
+
+def load_from_json(file):
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"data\\{file}.json")) as file:
+        return jsonpickle.decode(file.read())
